@@ -13,10 +13,8 @@
 
 	$scope.name = {
 		first:"Harald",
-		last: "Lønsethagen"
+		last: "Lastname"
 	};
-	
-	$scope.message = "Hello world!!!";
 
 	//Dependencies injection, deals with how functions get created and get hold on code....???
 	});//Ikke glem alle disse hersens parantesene

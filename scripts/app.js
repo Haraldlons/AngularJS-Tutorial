@@ -9,6 +9,6 @@ angular
 	})
 	.directive("helloworld", function($scope) {	
 		return {
-			template: "<h1>{{ message }}</h1>"
+			template: "<h1>Hello World</h1>"
 		}
 	}); //angular will convert camelcase to cababcase -> hello-world
