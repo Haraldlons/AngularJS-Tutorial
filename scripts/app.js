@@ -7,8 +7,8 @@ angular
 			.accentPalette('orange');
 
 	})
-	.directive("helloWorld", function() {	
+	.directive("helloWorld", function() {	//Dont put in scope even tho using scope.message
 		return {
-			template: "<h1>Hello World. This is a directive</h1>"
+			template: "<h1>{{ message }}</h1>"
 		}
 	}); //angular will convert camelcase to cababcase -> hello-world

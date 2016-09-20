@@ -2,9 +2,83 @@
 <html>
 <head>
 	<title>ngClassifieds</title>
-</head>
+	<link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+	<link href="node_modules/mdi/css/materialdesignicons.min.css"rel="stylesheet" media="all" rel="stylesheet" type="text/css"  >
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
 <body ng-app="ngClassifieds" ng-controller="classifiedsCtrl"><!-- Our controller is tied to the view with ng-controller -->
-<hello-world></hello-world>
+
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<p><strong>ngClassifieds</strong></p>
+
+			<md-button>
+				<md-icon class="mdi mdi-plus-circle"></md-icon>New Classifieds
+			</md-button>
+		</div>
+	</md-toolbar>
+<!--Bellow toolbar-->
+
+<button ng-click="showName = true">Show Name</button>
+<button ng-click="showName = false">Hide Name</button>
+<p ng-show="showName">Harald Lønsethagen</p>
+
+<md-content class="md-padding" layout="row" layout-wrap><!-- angular makes use of flexboks.  Row -> makes things stak horisontal. layout-wrap next line in stead of width of page-->
+	<md-card ng-repeat="classified in classifieds" flex="30"><!-- 33% -->
+		<img ng-src="{{ classified.image }}" alt=""><!-- ng-src wait until page is rdy before output image-->
+		<md-card-content> 
+			<div ng-show="!showContact" class="classified-info">
+				<h2 class="md-title">{{classified.title}}</h2>
+				<h2>{{classified.posted | date:'longDate' }}</h2>
+				<h3>{{classified.price | currency}}</h3>
+				<p>{{classified.description}}</p>
+				<!--<pre> {{classified | json }}</pre>-->
+			</div>
+
+			<div ng-show="showContact" class="classified-contact">
+				<p><md-icon class="mdi mdi-account"></md-icon>{{classified.contact.name}}</p>
+				<p><md-icon class="mdi mdi-phone"></md-icon>{{classified.contact.phone}}</p>
+				<p><md-icon class="mdi mdi-email"></md-icon>{{classified.contact.email}}</p>
+			</div>
+
+			<div layout="row">
+
+				<md-button 
+					ng-click="showContact = true"
+					ng-show="!showContact">					
+					Contact
+				</md-button>
+
+				<md-button 
+					ng-click="showContact = false"
+					ng-show="showContact">
+					Details
+				</md-button>
+
+				<md-button 
+					ng-click="showAdmin = true"
+					ng-show="!showAdmin">
+					Admin
+				</md-button>
+
+				<md-button 
+					ng-click="showAdmin = false"
+					ng-show="showAdmin">
+					Close
+				</md-button>
+
+			</div><!-- layout="row" show up horisontal in stead of vertical-->
+			<div class="classified-admin" ng-if="showAdmin"><!-- ng-if removes stuf from DOM. ng-show just hides stuff --> 
+				<h3>Admin</h3>
+				<div layout="row">
+					<md-button class="md-primary">Edit</md-button>
+					<md-button class="md-warn">Delete</md-button>
+				</div>
+			</div>
+		</md-card-content>
+	</md-card>
+
+</md-content>
 
 <script src="node_modules/angular/angular.js"></script>
 <script src="node_modules/angular-animate/angular-animate.js"></script>
@@ -12,5 +86,16 @@
 <script src="node_modules/angular-material/angular-material.js"></script>
 <script src="scripts/app.js"></script>
 <script src="components/classifieds.ctr.js"></script>
+
 </body>
 </html>
+
+
+<!-- 
+			Useful code
+<button ng-click="showName = true">Show name</button>
+<p ng-show="showName">Harald Lønsethagen</p>
+
+ng-hide og ng-show er invers av hverandre
+
+-->
