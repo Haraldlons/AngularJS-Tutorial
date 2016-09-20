@@ -7,8 +7,8 @@ angular
 			.accentPalette('orange');
 
 	})
-	.directive("helloworld", function($scope) {	
+	.directive("helloWorld", function() {	
 		return {
-			template: "<h1>Hello World</h1>"
+			template: "<h1>Hello World. This is a directive</h1>"
 		}
 	}); //angular will convert camelcase to cababcase -> hello-world
