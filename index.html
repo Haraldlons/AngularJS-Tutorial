@@ -6,176 +6,20 @@
 	<link href="node_modules/mdi/css/materialdesignicons.min.css"rel="stylesheet" media="all" rel="stylesheet" type="text/css"  >
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
-<body ng-app="ngClassifieds" ng-controller="classifiedsCtrl"><!-- Our controller is tied to the view with ng-controller -->
+<body ng-app="ngClassifieds"><!-- Our controller is tied to the view with ng-controller -->
+<h2>Testing</h2>
 
-
-
-<md-toolbar>
-	<div class="md-toolbar-tools">
-
-		<p><strong>ngClassifieds</strong></p>
-		<md-button ng-click="openSidebar()">
-			<md-icon class="mdi mdi-plus-circle"></md-icon>New Classifieds
-		</md-button>
-
-		<!-- Filters -->
-		<md-button ng-click="showFilter = true">
-			<md-icon class="mdi mdi-magnify"></md-icon>Filters
-		</md-button>
-
-	</div>
-</md-toolbar>
-<!--Bellow toolbar-->
-
-
-<md-button ui-sref="one">Go to state one</md-button>
-<md-button ui-sref="two">Go to state two</md-button>
 <ui-view></ui-view>
-
-
-<!-- Filters -->
-<div class="filters" layout="row" layout-align="center center" ng-show="showFilter">
-	
-	<md-input-container>
-		<label>Enter Search Term</label>
-		<input type="text" ng-model="classifiedsFilter">
-	</md-input-container>
-
-	<md-input-container styles="margin-top=0px">
-        <label>Category</label>
-        <md-select ng-model="category">
-          <md-option ng-repeat="category in categories" value="{{ category }}">  
-            {{ category }}
-          </md-option>
-        </md-select>
-      </md-input-container>
-
-  	<div layout="row">
-		<md-button class="md-warn" 
-					ng-click="classifiedsFilter = ''; category = ''">
-		Clear
-		</md-button>
-	</div>
-
-</div>
-
-<!-- SideNav-->
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"><!-- whitefram depth of shadow -->
-	<md-toolbar>
-		<h1 class="md-toolbar-tools">Add a Classified</h1>
-	</md-toolbar>
-
-	<md-content layout-padding>
-		<form>
-			<md-input-container>
-				<label for="title">Title</label>
-				<input type="text" id="title" 
-					ng-model="classified.title"
-					md-autofocus>
-			</md-input-container>
-			<md-input-container>
-				<label for="price">Price</label>
-				<input type="text" id="price" 
-						ng-model="classified.price">
-			</md-input-container>
-			<md-input-container>
-				<label for="description">Description</label>
-				<textarea type="text" id="description"
-						ng-model="classified.description">
-						</textarea>
-			</md-input-container>
-			<md-input-container>
-				<label for="image">Image link</label>
-				<input type="text" id="image"
-						ng-model="classified.image">
-			</md-input-container>
-			<md-button ng-if="!editing" ng-click="saveClassified(classified)" class="md-primary"><!-- ...fied() method -->
-				Save
-			</md-button>
-			<md-button ng-if="editing" ng-click="saveEdit()" class="md-primary">
-				Save Edit
-			</md-button>
-			<md-button ng-click="closeSidenav()" class="md-warn">
-				Cancel
-			</md-button>
-
-			<pre>{{classified | json }}</pre>
-
-		</form>
-	</md-content>
-</md-sidenav>
-
-
-<md-content class="md-padding" layout="row" layout-wrap><!-- angular makes use of flexboks.  Row -> makes things stak horisontal. layout-wrap next line in stead of width of page-->
-	<md-card ng-repeat="classified in classifieds | 
-			filter: classifiedsFilter |
-			filter: category"
-			flex="30"
-			class="classified"><!-- 33% -->
-		<img ng-src="{{ classified.image }}" alt=""><!-- ng-src wait until page is rdy before output image-->
-		<md-card-content> 
-			<div ng-show="!showContact" class="classified-info">
-				<h2 class="md-title">{{classified.title}}</h2>
-				<h2>{{classified.posted | date:'longDate' }}</h2>
-				<h3>{{classified.price | currency}}</h3>
-				<p>{{classified.description}}</p>
-				<!--<pre> {{classified | json }}</pre>-->
-			</div>
-
-			<div ng-show="showContact" class="classified-contact">
-				<p><md-icon class="mdi mdi-account"></md-icon>{{classified.contact.name}}</p>
-				<p><md-icon class="mdi mdi-phone"></md-icon>{{classified.contact.phone}}</p>
-				<p><md-icon class="mdi mdi-email"></md-icon>{{classified.contact.email}}</p>
-			</div>
-
-			<div layout="row">
-
-				<md-button 
-					ng-click="showContact = true"
-					ng-show="!showContact">					
-					Contact
-				</md-button>
-
-				<md-button 
-					ng-click="showContact = false"
-					ng-show="showContact">
-					Details
-				</md-button>
-
-				<md-button 
-					ng-click="showAdmin = true"
-					ng-show="!showAdmin">
-					Admin
-				</md-button>
-
-				<md-button 
-					ng-click="showAdmin = false"
-					ng-show="showAdmin">
-					Close
-				</md-button>
-
-			</div><!-- layout="row" show up horisontal in stead of vertical-->
-			<div class="classified-admin" ng-if="showAdmin"><!-- ng-if removes stuf from DOM. ng-show just hides stuff --> 
-				<h3>Admin</h3>
-				<div layout="row">
-					<md-button ng-click="editClassified(classified)" class="md-primary">Edit</md-button>
-					<md-button ng-click="deleteClassified($event, classified)" class="md-warn">Delete</md-button>
-				</div>
-			</div>
-		</md-card-content>
-	</md-card>
-
-</md-content>
 
 <script src="node_modules/angular/angular.js"></script>
 <script src="node_modules/angular-animate/angular-animate.js"></script>
 <script src="node_modules/angular-aria/angular-aria.js"></script>
 <script src="node_modules/angular-material/angular-material.js"></script>
+<script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="scripts/app.js"></script>
 <script src="components/classifieds.ctr.js"></script>
 <script src="components/classifieds.fac.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.1/lodash.min.js"></script>
-<script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
 
 
 </body>

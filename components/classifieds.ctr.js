@@ -8,11 +8,26 @@
 	//Scope enables communication.  function($scope) Inject scope object. Ananamous function associated with controller
 	//$mdToast service
 
+	var vm = this;
+
+	vm.categories;
+	vm.classified;
+	vm.classifieds;
+	vm.closeSidenav = closeSidenav;
+	vm.deleteClassified = deleteClassified;
+	vm.editing;
+	vm.editClassified = editClassified;
+	vm.openSidebar = openSidebar;
+	vm.saveClassified = saveClassified;
+
+
 	//Returnes promises, cause async. 
 	classifiedsFactory.getClassifieds().then(function(classifieds){
-		$scope.classifieds = classifieds.data;
-		$scope.categories = getCategories($scope.classifieds);
+		vm.classifieds = classifieds.data;
+		vm.categories = getCategories(vm.classifieds);
 	});
+
+
 
 	var contact = {
 		name: "Harald",
@@ -21,47 +36,47 @@
 	} 
 
 
-	$scope.openSidebar = function(){
+	function openSidebar() {
 		$mdSidenav('left').open(); //from md-component-id="left"
 	}
 
-	$scope.closeSidenav = function(){
+	function closeSidenav() {
 		$mdSidenav('left').close();
 	}
 
-	$scope.saveClassified = function(classified){
+	function saveClassified(classified) {
 		if(classified){
 			classified.contact = contact;
-			$scope.classifieds.push(classified);
-			$scope.classified = {};
-			$scope.closeSidenav();
+			vm.classifieds.push(classified);
+			vm.classified = {};
+			closeSidenav();
 			showToast("New item saved!");
 		}
 	}
 
-	$scope.editClassified = function(classified){
-		$scope.editing = true;
-		$scope.openSidebar();
-		$scope.classified = classified;
+	function editClassified(classified) {
+		vm.editing = true;
+		openSidebar();
+		vm.classified = classified;
 	}
 
-	$scope.saveEdit = function (){
-		$scope.editing = false;
-		$scope.closeSidenav();
-		$scope.classified = {};
+	function saveEdit() {
+		vm.editing = false;
+		vm.classified = {};
+		closeSidenav();
 		showToast("Edit saved!");
 	}
 
 
-	$scope.deleteClassified = function(event,classified){
+	function deleteClassified(event, classified) {
 		var confirm = $mdDialog.confirm()
 			.title('Are you sure you want to delete '+ classified.title + '?')
 			.ok('Yes')
 			.cancel('No')
 			.targetEvent(event)
 		$mdDialog.show(confirm).then(function(){
-		var index = $scope.classifieds.indexOf(classified);//om første 0, andre 1
-			$scope.classifieds.splice(index,1);
+		var index = vm.classifieds.indexOf(classified);//om første 0, andre 1
+			vm.classifieds.splice(index,1);
 		},function(){ //We clicked No
 
 		});
@@ -96,7 +111,29 @@
 
 
 /*
+---------------------- Before refractering
 
+$scope.openSidebar = function(){
+		$mdSidenav('left').open(); //from md-component-id="left"
+	}
+
+	$scope.closeSidenav = function(){
+		$mdSidenav('left').close();
+	}
+
+	$scope.saveClassified = function(classified){
+		if(classified){
+			classified.contact = contact;
+			$scope.classifieds.push(classified);
+			$scope.classified = {};
+			$scope.closeSidenav();
+			showToast("New item saved!");
+		}
+	}
+
+
+
+--------------------------
 	$scope.name = {
 		first:"Harald",
 		last: "Lastname"

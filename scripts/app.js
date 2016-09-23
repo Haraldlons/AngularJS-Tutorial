@@ -6,13 +6,12 @@ angular
 			.primaryPalette('teal')
 			.accentPalette('orange');
 
-		$stateProvider
-			.state('classifieds', {
-				url: '/classifieds',
-				template: 'components/classifieds/classifieds.tpl.html',
-				controller: 'classifiedsCtrl as vm'
-			});
-		
+	  $stateProvider
+        .state('classifieds', {
+          url: '/classifieds',
+          templateUrl: 'components/classifieds/classifieds.tpl.html',
+          controller: 'classifiedsCtrl as vm'
+        })
 
 	}); //Ikke semikolon
 	
