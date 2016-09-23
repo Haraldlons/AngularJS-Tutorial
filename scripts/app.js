@@ -7,32 +7,22 @@ angular
 			.accentPalette('orange');
 
 		$stateProvider
-			.state('one', {
-				url: '/stateone',
-				template: '<h1>{{ message }}</h1>',
-				controller: 'stateOneController'
-			})
-			.state('two',{
-				url: '/statetwo',
-				template: '<h1>State Two</h1> <md-button ui-sref="two.more">Go to nested state</md-button><ui-view></ui-view>'
-			})
-			.state('two.more', {
-				url: '/more',
-				template: '<p>This is the deeper state</p>'
+			.state('classifieds', {
+				url: '/classifieds',
+				template: 'components/classifieds/classifieds.tpl.html',
+				controller: 'classifiedsCtrl as vm'
 			});
+		
 
-	}) //Ikke semikolon
-	.controller('stateOneController', function($scope){
-		$scope.message = "Hey from state one";
-	});
+	}); //Ikke semikolon
+	
+/*
 
-
-
-	 //angular will convert camelcase to cababcase -> hello-world
+//angular will convert camelcase to cababcase -> hello-world
 
 
 
-	/*
+
 
 ------------------------ directives
 .directive("helloWorld", function() {	//Dont put in scope even tho using scope.message
@@ -57,7 +47,22 @@ angular
 				template: '<p>This is the deeper state</p>'
 			});
 
+------------------------ -Demo routing
+.controller('stateOneController', function(){
+		var vm = this; //View Model
+		vm.message = "Hey from state one";
+	});
 
+	.state('two',{
+				url: '/statetwo',
+				template: '<h1>State Two</h1> <md-button ui-sref="two.more">Go to nested state</md-button><ui-view></ui-view>'
+			})
+			.state('two.more', {
+				url: '/more',
+				template: '<p>This is the deeper state</p>'
+			});
+
+--------------------------
 
 
 
