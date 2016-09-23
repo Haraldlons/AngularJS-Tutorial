@@ -4,118 +4,93 @@
 
 	angular
 	.module("ngClassifieds")//Not second array. Cause then referance. Then would make another module
-	.controller("classifiedsCtrl", function($scope) { //ctrl - controller, second argument "controller code"
+	.controller("classifiedsCtrl", function($scope, $http, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) { //ctrl - controller, second argument "controller code"
 	//Scope enables communication.  function($scope) Inject scope object. Ananamous function associated with controller
+	//$mdToast service
 
-	$scope.classifieds = [
-  {
-    "id":"1",
-    "title":"20 Foot Equipment Trailer",
-    "description":"2013 rainbow trailer 20 feet x 82 inch deck area, two 5,000 lb axels, electric brakes, two pull out ramps, break away box, spare tire.",
-    "price":6000,
-    "posted":"2015-10-24",
-    "contact": {
-      "name":"John Doe",
-      "phone":"(555) 555-5555",
-      "email":"johndoe@gmail.com"
-    },
-    "categories":[
-      "Vehicles",
-      "Parts and Accessories"
-    ],
-    "image": "http://www.louisianasportsman.com/classifieds/pics/p1358549934434943.jpg",
-    "views":213
-  },
-  {
-    "id":"2",
-    "title":"Canada Goose Jacket",
-    "description":"Red woman's Canada Goose Montebello jacket. It was used for two seasons. This jacket retails for $745. The jacket has been professionally cleaned since it was last worn by anyone.",
-    "price": 500,
-    "posted": "2015-10-28",
-    "contact": {
-      "name": "Jane Doe",
-      "phone": "(555) 555-5555",
-      "email": "janedoe@gmail.com"
-    },
-    "categories": [
-      "Clothing"
-    ],
-    "image":"http://canadagoose-jacket.weebly.com/uploads/9/2/3/3/9233177/9087323_orig.jpg",
-    "views":422
-  },
-  {
-    "id":"3",
-    "title":"Baby Crib and Matress",
-    "description":"Good condition.",
-    "price":50,
-    "posted":"2015-10-27",
-    "contact": {
-      "name":"Jane Doe",
-      "phone":"(555) 555-5555",
-      "email":"janedoe@gmail.com"
-    },
-    "categories":[
-      "Furniture"
-    ],
-    "image":"http://images.landofnod.com/is/image/LandOfNod/Crib_Anderson_Nat_V1/$web_setitem$/1308310657/andersen-crib-maple.jpg",
-    "views":23
-  },
-  {
-    "id":"4",
-    "title":"Leather Sofa",
-    "description":"Brown leather sofa for sale.  Good condition but small tear on one cushion.",
-    "price":250,
-    "posted":"2015-11-01",
-    "contact": {
-      "name":"John Doe",
-      "phone":"(555) 555-5555",
-      "email":"johndoe@gmail.com"
-    },
-    "categories":[
-      "Furniture"
-    ],
-    "image":"http://betterhousekeeper.com/wp-content/uploads/2014/05/1557-balston_leather_sofa.jpg",
-    "views":77
-  },
-  {
-    "id":"5",
-    "title":"MacBook Air",
-    "description":"2013 MacBook Air. Great condition, but a few scratches.",
-    "price":1150,
-    "posted":"2015-11-02",
-    "contact": {
-      "name":"John Doe",
-      "phone":"(555) 555-5555",
-      "email":"johndoe@gmail.com"
-    },
-    "categories":[
-      "Electronics",
-      "Computer Parts and Accessories"
-    ],
-    "image":"http://cdn.macrumors.com/article-new/2014/11/macbook_air_yosemite-800x450.jpg?retina",
-    "views":889
-  },
-  {
-    "id":"6",
-    "title":"2008 Dodge Caliber",
-    "description":"Battery blanket and block heater installed. Winter tires, good tread left are on the car currently. Car comes with 4 summer tires with also good treads left. Hydraulic power steering fluid line installed so this won't break on you in the cold Yellowknife winters! Synthetic oil used, good for 1000+ more KMs. AC/Sunroof/power doors/steering, CD player/radio. Red accented dash and upolstry.",
-    "price":4800,
-    "posted":"2015-11-03",
-    "contact": {
-      "name":"John Doe",
-      "phone":"(555) 555-5555",
-      "email":"johndoe@gmail.com"
-    },
-    "categories":[
-      "Vehicles",
-      "Cars"
-    ],
-    "image":"http://images.buysellsearch.com/image/orig/8dfc4f6c5d411130d19dedd28d61bc2b/2009-dodge-caliber-se.jpg",
-    "views":423
-  }
-]
+	//Returnes promises, cause async. 
+	classifiedsFactory.getClassifieds().then(function(classifieds){
+		$scope.classifieds = classifieds.data;
+		$scope.categories = getCategories($scope.classifieds);
+	});
 
-	//Dependencies injection, deals with how functions get created and get hold on code....???
+	var contact = {
+		name: "Harald",
+		phone: "(555) 444-4444",
+		email: "haraldlons@gmail.com"
+	} 
+
+
+	$scope.openSidebar = function(){
+		$mdSidenav('left').open(); //from md-component-id="left"
+	}
+
+	$scope.closeSidenav = function(){
+		$mdSidenav('left').close();
+	}
+
+	$scope.saveClassified = function(classified){
+		if(classified){
+			classified.contact = contact;
+			$scope.classifieds.push(classified);
+			$scope.classified = {};
+			$scope.closeSidenav();
+			showToast("New item saved!");
+		}
+	}
+
+	$scope.editClassified = function(classified){
+		$scope.editing = true;
+		$scope.openSidebar();
+		$scope.classified = classified;
+	}
+
+	$scope.saveEdit = function (){
+		$scope.editing = false;
+		$scope.closeSidenav();
+		$scope.classified = {};
+		showToast("Edit saved!");
+	}
+
+
+	$scope.deleteClassified = function(event,classified){
+		var confirm = $mdDialog.confirm()
+			.title('Are you sure you want to delete '+ classified.title + '?')
+			.ok('Yes')
+			.cancel('No')
+			.targetEvent(event)
+		$mdDialog.show(confirm).then(function(){
+		var index = $scope.classifieds.indexOf(classified);//om første 0, andre 1
+			$scope.classifieds.splice(index,1);
+		},function(){ //We clicked No
+
+		});
+	}
+	//Use splice(start,numberOfItems)
+
+	function showToast(message){
+		$mdToast.show(
+			$mdToast.simple()
+					.content(message)
+					.position('top, right')
+					.hideDelay(2000)
+			);
+	}
+
+	function getCategories(classifieds) {
+
+		var categories = [];
+
+		angular.forEach(classifieds, function(item) {
+			angular.forEach(item.categories, function(category) {
+				categories.push(category);
+			});
+		});
+
+		return _.uniq(categories);
+	}
+	
+
 	});//Ikke glem alle disse hersens parantesene
 })();
 
@@ -128,5 +103,21 @@
 	};
 
 	$scope.message = "Hello World, using message";
+
+
+	POST - Sending
+	GET - Retriving
+	DELETE - Deleting
+	PUT - Editing
+
+	$http.get('https://adress.com').then(function(classifieds){
+		$scope.classifieds = classifieds.data;
+	});
+	
+	Slippe skrive adresse hele tiden -> service
+
+	if(confirm("Are you sure?")){
+			$scope.classifieds.splice(index,1);
+		}
 
 */
