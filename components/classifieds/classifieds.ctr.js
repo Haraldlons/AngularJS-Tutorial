@@ -4,7 +4,7 @@
 
 	angular
 	.module("ngClassifieds")//Not second array. Cause then referance. Then would make another module
-	.controller("classifiedsCtrl", function($scope, $http, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) { //ctrl - controller, second argument "controller code"
+	.controller("classifiedsCtrl", function($scope, $state, $http, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) { //ctrl - controller, second argument "controller code"
 	//Scope enables communication.  function($scope) Inject scope object. Ananamous function associated with controller
 	//$mdToast service
 
@@ -37,7 +37,7 @@
 
 
 	function openSidebar() {
-		$mdSidenav('left').open(); //from md-component-id="left"
+		$state.go('classifieds.new'); //from md-component-id="left"
 	}
 
 	function closeSidenav() {

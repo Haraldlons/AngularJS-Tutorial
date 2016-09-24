@@ -12,6 +12,11 @@ angular
           templateUrl: 'components/classifieds/classifieds.tpl.html',
           controller: 'classifiedsCtrl as vm'
         })
+         .state('classifieds.new', {
+          url: '/new', //classifieds.new makes new substate
+          templateUrl: 'components/classifieds/new/classifieds.new.tpl.html',
+          controller: 'newClassifiedsCtrl as vm'
+        });
 
 	}); //Ikke semikolon
 	
