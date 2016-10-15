@@ -10,6 +10,7 @@
 
 	var vm = this;
 
+
 	vm.categories;
 	vm.classified;
 	vm.classifieds;
@@ -27,6 +28,15 @@
 		vm.categories = getCategories(vm.classifieds);
 	});
 
+	$scope.$on('newClassified', function(event, classified){
+		classified.id = vm.classifieds.length + 1;
+		vm.classifieds.push(classified);
+		showToast('classified saved!');
+	});
+
+	$scope.$on('editSaved', function(event, message){
+		showToast(message);
+	});
 
 
 	var contact = {
@@ -55,9 +65,10 @@
 	}
 
 	function editClassified(classified) {
-		vm.editing = true;
-		openSidebar();
-		vm.classified = classified;
+		$state.go('classifieds.edit', {
+			id: classified.id,
+			classified: classified
+		});
 	}
 
 	function saveEdit() {
@@ -111,6 +122,14 @@
 
 
 /*
+
+-----------------Emitters
+	$scope.$broadcast //Send to child scopes
+	$scope.$emit  //To parent scope
+	
+	$scope.$on // Collect scope
+
+
 ---------------------- Before refractering
 
 $scope.openSidebar = function(){

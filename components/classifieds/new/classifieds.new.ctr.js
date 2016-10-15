@@ -9,9 +9,10 @@
 			var vm = this;
 
 			vm.closeSidebar = closeSidebar;
+			vm.saveClassified = saveClassified;
 
-			$timeout(function() {
-				$mdSidenav('left').open();
+			$timeout(function() { //Pga Javascript asynkronsk. 
+				$mdSidenav('left').open(); //Setter denne til open etter litt tid, om jeg har forstått riktig...
 			});
 
 			$scope.$watch('vm.sidenavOpen', function(sidenav){
@@ -21,21 +22,52 @@
 					$mdSidenav('left')
 						.close()
 						.then(function(){
-							$state.go('classifieds');
+							$state.go('classifieds');//For å gå til ny URL
 					});
 				}
 			});
 
-			function closeSidebar(){
+			function closeSidebar(){ //Når man trykker Cancel
 				console.log('Closing sidebar2');
 				vm.classifieds = {};
 				vm.sidenavOpen = false;
 			}
+
+			function saveClassified(classified){
+				if(classified){
+					classified.contact = {
+						name: "Harald",
+						phone: "(555) 444-4444",
+						email: "haraldlons@gmail.com"
+					} 			
+					$scope.$emit('newClassified', classified);
+					vm.sidenavOpen = false;
+				}
+			}
+
+
+	
+
 			
 		}); //Controller end
 })();
 
 /*
+------------------ Emitters
+
+	<md-button ng-click="vm.sendMessage()">Send Message</md-button>
+
+			vm.sendMessage = function(){
+				$scope.$emit('myMessage', 'hey, how are you?')
+			}
+
+
+	$scope.$on('myMessage', function(event, message){
+		console.log(message);
+	})
+
+
+
 ----------------------- Watcher
 $scope.$watch('vm.valueToChange',function(value){
 				if(value === 2){

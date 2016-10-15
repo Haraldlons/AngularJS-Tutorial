@@ -16,7 +16,17 @@ angular
           url: '/new', //classifieds.new makes new substate
           templateUrl: 'components/classifieds/new/classifieds.new.tpl.html',
           controller: 'newClassifiedsCtrl as vm'
+        })
+          .state('classifieds.edit', {
+          url: '/edit/:id', //Colon ahead then id variable 
+          templateUrl: 'components/classifieds/edit/classifieds.edit.tpl.html',
+          controller: 'editClassifiedsCtrl as vm',
+          params: {
+          	classified: null
+          }
         });
+
+
 
 	}); //Ikke semikolon
 	
