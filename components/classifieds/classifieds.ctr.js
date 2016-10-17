@@ -5,8 +5,8 @@
 	angular
 	.module("ngClassifieds")//Not second array. Cause then referance. Then would make another module
 	.controller("classifiedsCtrl", function($scope, $state, $http, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) { //ctrl - controller, second argument "controller code"
-	//Scope enables communication.  function($scope) Inject scope object. Ananamous function associated with controller
-	//$mdToast service
+	//Scope enables communication.  function($scope) Inject scope object. Anonymous function associated with controller
+	//$mdToast service 
 
 	var vm = this;
 
@@ -23,18 +23,21 @@
 
 
 	//Returnes promises, cause async. 
-	classifiedsFactory.getClassifieds().then(function(classifieds){
+	classifiedsFactory.getClassifieds().then(function(classifieds){ //Classifieds inneholder data fra data/classifieds.json
 		vm.classifieds = classifieds.data;
 		vm.categories = getCategories(vm.classifieds);
 	});
 
-	$scope.$on('newClassified', function(event, classified){
+	$scope.$on('newClassified', function(event, classified){ // $on "Hører" etter newClassified, og når vi hører den kjører vi funkjsonen. 
+															//newClassified blir emittet av child ctrl av funksjonen "saveClassified"
+															//classified som parameter er hva som blir emittet, og vi på en måte fanger den opp
+															//ved å ta den inn som paramter i funksjonen. 
 		classified.id = vm.classifieds.length + 1;
 		vm.classifieds.push(classified);
 		showToast('classified saved!');
 	});
 
-	$scope.$on('editSaved', function(event, message){
+	$scope.$on('editSaved', function(event, message){ //Lytter etter "editSaved".
 		showToast(message);
 	});
 
@@ -47,7 +50,8 @@
 
 
 	function openSidebar() {
-		$state.go('classifieds.new'); //from md-component-id="left"
+		$state.go('classifieds.new'); //from md-component-id="left" 
+		//Nå går man til en annen state. Def. i app.js
 	}
 
 	function closeSidenav() {
