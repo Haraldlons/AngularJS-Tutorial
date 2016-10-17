@@ -1,5 +1,5 @@
 angular
-	.module("ngClassifieds", ["ngMaterial",'ui.router'])
+	.module("ngClassifieds", ["ngMaterial",'ui.router','firebase']) //Rem. to include firebase
 	.config(function($mdThemingProvider, $stateProvider){ //Provides us with diferent states for our app
 
 		$mdThemingProvider.theme('default') //Changes to the default theme. 

@@ -21,26 +21,23 @@
 	vm.openSidebar = openSidebar;
 	vm.saveClassified = saveClassified;
 
-
-	//Returnes promises, cause async. 
-	classifiedsFactory.getClassifieds().then(function(classifieds){ //Classifieds inneholder data fra data/classifieds.json
-		vm.classifieds = classifieds.data;
-		vm.categories = getCategories(vm.classifieds);
+	vm.classifieds = classifiedsFactory.ref;
+	vm.classifieds.$loaded().then(function(classifieds){
+		vm.categories = getCategories(classifieds);
 	});
+
 
 	$scope.$on('newClassified', function(event, classified){ // $on "Hører" etter newClassified, og når vi hører den kjører vi funkjsonen. 
 			//newClassified blir emittet av child ctrl av funksjonen "saveClassified"
 			//classified som parameter er hva som blir emittet, og vi på en måte fanger den opp
 			//ved å ta den inn som paramter i funksjonen. 
-		classified.id = vm.classifieds.length + 1;
-		vm.classifieds.push(classified);
+		vm.classifieds.$add(classified);
 		showToast('Classified saved!');
 	});
 
 	$scope.$on('editMessage', function(event, message){ //Lytter etter "editSaved".
 		showToast(message);
 	});
-
 
 	var contact = {
 		name: "Harald",
@@ -70,8 +67,7 @@
 
 	function editClassified(classified) {
 		$state.go('classifieds.edit', {
-			id: classified.id,
-			classified: classified
+			id: classified.$id
 		});
 	}
 
@@ -122,7 +118,7 @@
 		return _.uniq(categories);
 	}
 
-
+	
 	
 
 	});//Ikke glem alle disse hersens parantesene
@@ -130,6 +126,20 @@
 
 
 /*
+
+//For each item, send den til firebase
+		angular.forEarch(data, function(item){
+			firebase.$add(item);
+		});
+
+
+
+----------------------------- $http. request
+	$http.get('https://api.github.com/users').then(function(response){
+		console.log(response);
+	});
+
+
 
 -----------------Emitters
 	$scope.$broadcast //Send to child scopes
@@ -197,5 +207,34 @@ $scope.openSidebar = function(){
 		console.log(message);
 	})
 	
+----------------------- Adding items to firebase
+
+var data = [
+		  {
+		    "id":"1",
+		    "title":"20 Foot Equipment Trailer",
+		    "description":"2013 rainbow trailer 20 feet x 82 inch deck area, two 5,000 lb axels, electric brakes, two pull out ramps, break away box, spare tire.",
+		    "price":6000,
+		    "posted":"2015-10-24",
+		    "contact": {
+		      "name":"John Doe",
+		      "phone":"(555) 555-5555",
+		      "email":"johndoe@gmail.com"
+		    },
+		    "categories":[
+		      "Vehicles",
+		      "Parts and Accessories"
+		    ],
+		    "image": "http://www.louisianasportsman.com/classifieds/pics/p1358549934434943.jpg",
+		    "views":213
+		  }
+		]
+
+		var firebase = classifiedsFactory.ref;
+
+		//For each item, send den til firebase
+		angular.forEach(data, function(value, key){  //Halvtime leting etter feil, skrev earch og ikke each
+			firebase.$add(value);
+		});
 
 */

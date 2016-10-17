@@ -4,14 +4,13 @@
 
 	angular // Dette er bare måten en factory skrives på. 
 		.module("ngClassifieds")
-		.factory("classifiedsFactory", function($http){
+		.factory("classifiedsFactory", function($http, $firebaseArray){
 			
-			function getClassifieds(){
-				return $http.get("data/classifieds.json");
-			}
+			var ref = new Firebase('https://haraldistesting.firebaseio.com/');
+			//console.log(ref);
 
 			return {
-				getClassifieds: getClassifieds
+				ref: $firebaseArray(ref)
 			}
 		});
 
