@@ -2,7 +2,7 @@ angular
 	.module("ngClassifieds", ["ngMaterial",'ui.router'])
 	.config(function($mdThemingProvider, $stateProvider){ //Provides us with diferent states for our app
 
-		$mdThemingProvider.theme('default') //Changes to the default theme
+		$mdThemingProvider.theme('default') //Changes to the default theme. 
 			.primaryPalette('teal')
 			.accentPalette('orange');
 
@@ -15,13 +15,14 @@ angular
          .state('classifieds.new', {
           url: '/new', //classifieds.new makes new substate
           templateUrl: 'components/classifieds/new/classifieds.new.tpl.html',
-          controller: 'newClassifiedsCtrl as vm'
+          controller: 'newClassifiedsCtrl as vm' //NEWclassifiedsCtrl, legg merke til at det er new forran
+          								//Det kan være lett å overse
         })
           .state('classifieds.edit', {
           url: '/edit/:id', //Colon ahead then id variable 
           templateUrl: 'components/classifieds/edit/classifieds.edit.tpl.html',
           controller: 'editClassifiedsCtrl as vm',
-          params: {
+          params: { //For at det ikke skal bli kluss når man editer.
           	classified: null
           }
         });

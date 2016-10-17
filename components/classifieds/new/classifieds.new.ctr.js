@@ -11,10 +11,12 @@
 			vm.closeSidebar = closeSidebar;
 			vm.saveClassified = saveClassified;
 
+
 			$timeout(function() { //Pga Javascript asynkronsk. 
 				$mdSidenav('left').open(); //Setter denne til open etter litt tid, om jeg har forstått riktig...
 			});
 
+					//Watch ser hele tiden på verdien og gjør noe når den merker en forskjell
 			$scope.$watch('vm.sidenavOpen', function(sidenav){
 				console.log('Sidebar Action');
 				if(sidenav === false) {//closed
@@ -45,7 +47,7 @@
 				}
 			}
 
-
+			
 	
 
 			

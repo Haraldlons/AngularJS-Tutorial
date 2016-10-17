@@ -29,15 +29,15 @@
 	});
 
 	$scope.$on('newClassified', function(event, classified){ // $on "Hører" etter newClassified, og når vi hører den kjører vi funkjsonen. 
-															//newClassified blir emittet av child ctrl av funksjonen "saveClassified"
-															//classified som parameter er hva som blir emittet, og vi på en måte fanger den opp
-															//ved å ta den inn som paramter i funksjonen. 
+			//newClassified blir emittet av child ctrl av funksjonen "saveClassified"
+			//classified som parameter er hva som blir emittet, og vi på en måte fanger den opp
+			//ved å ta den inn som paramter i funksjonen. 
 		classified.id = vm.classifieds.length + 1;
 		vm.classifieds.push(classified);
-		showToast('classified saved!');
+		showToast('Classified saved!');
 	});
 
-	$scope.$on('editSaved', function(event, message){ //Lytter etter "editSaved".
+	$scope.$on('editMessage', function(event, message){ //Lytter etter "editSaved".
 		showToast(message);
 	});
 
@@ -91,6 +91,8 @@
 			.targetEvent(event)
 		$mdDialog.show(confirm).then(function(){
 		var index = vm.classifieds.indexOf(classified);//om første 0, andre 1
+			console.log(classified);
+			showToast("The item: \"" + classified.title + "\" deleted");
 			vm.classifieds.splice(index,1);
 		},function(){ //We clicked No
 
@@ -119,6 +121,8 @@
 
 		return _.uniq(categories);
 	}
+
+
 	
 
 	});//Ikke glem alle disse hersens parantesene
@@ -179,5 +183,19 @@ $scope.openSidebar = function(){
 	if(confirm("Are you sure?")){
 			$scope.classifieds.splice(index,1);
 		}
+
+	-------------------- -Example
+	In newCtrl
+		vm.sendMessage = function(){
+				$scope.$emit('myMessage', "Hey, how are you?");
+			}
+
+
+	In main Ctrl
+
+	$scope.$on('myMessage', function(event, message){
+		console.log(message);
+	})
+	
 
 */

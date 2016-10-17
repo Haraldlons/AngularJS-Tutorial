@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular
+	angular // Dette er bare måten en factory skrives på. 
 		.module("ngClassifieds")
 		.factory("classifiedsFactory", function($http){
 			
@@ -16,3 +16,21 @@
 		});
 
 })();
+
+/*
+	POST - Sending
+	GET - Retriving
+	DELETE - Deleting
+	PUT - Editing
+
+	$http.get('https://adress.com').then(function(classifieds){
+		$scope.classifieds = classifieds.data;
+	});
+	
+	Slippe skrive adresse hele tiden -> service
+
+	if(confirm("Are you sure?")){
+			$scope.classifieds.splice(index,1);
+		}
+
+*/
