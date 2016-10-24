@@ -1,10 +1,8 @@
 # AngularJS-Tutorial
-AngularJS tutorial from Udemy https://www.udemy.com/ultimate-angularjs-course/
+AngularJS tutorial from [Udemy](https://www.udemy.com/ultimate-angularjs-course/)
 
-Problems encountered
+## Problems encountered
 * npm install angular & angular-material didn't install the folders angular-animate and angular-aria. 
   FIX: npm install angular-aria
       npm install angular-animate
       
-# Fixes for problems
-* Do something smart
