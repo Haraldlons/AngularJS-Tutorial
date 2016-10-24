@@ -6,3 +6,5 @@ Problems encountered
   FIX: npm install angular-aria
       npm install angular-animate
       
+# Fixes for problems
+* Do something smart
