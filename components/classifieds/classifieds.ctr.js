@@ -89,7 +89,7 @@
 		var index = vm.classifieds.indexOf(classified);//om første 0, andre 1
 			console.log(classified);
 			showToast("The item: \"" + classified.title + "\" deleted");
-			vm.classifieds.splice(index,1);
+				 vm.classifieds.$remove(classified);
 		},function(){ //We clicked No
 
 		});
