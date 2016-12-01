@@ -12,8 +12,9 @@
 			vm.closeSidebar = closeSidebar;
 			vm.saveEdit = saveEdit;
 			vm.classified = vm.classifieds.$getRecord($state.params.id); //Record associated with firebase object
-				console.log(vm.classified);
+			console.log(vm.classified);
 		
+
 
 			$timeout(function() { //Pga Javascript asynkronsk. 
 				$mdSidenav('left').open(); //Setter denne til open etter litt tid, om jeg har forstått riktig...

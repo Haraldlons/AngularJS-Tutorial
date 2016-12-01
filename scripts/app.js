@@ -24,7 +24,7 @@ angular
           controller: 'editClassifiedsCtrl as vm',
           params: { //For at det ikke skal bli kluss når man editer.
           	classified: null
-          }
+          } //I ctrl. $state.params.classified (for å referer det man overfører)
         });
 
 
